@@ -1,19 +1,8 @@
-import fs from 'fs'
-import path from 'path'
 import request from 'supertest'
 import app from '../index'
+import { resetStore } from '../data/store'
 
-const STORE_PATH = path.resolve(__dirname, '../../data/roles-store.json')
-const SEED = {
-  activeRoles: [
-    { id: 1, name: 'Superadmin', lastActive: '06/2023' },
-    { id: 2, name: 'Developeradmin', lastActive: '01/2023' },
-    { id: 3, name: 'Supportadmin', lastActive: '10/2022' },
-  ],
-}
-
-beforeAll(() => fs.writeFileSync(STORE_PATH, JSON.stringify(SEED, null, 2), 'utf-8'))
-afterAll(() => fs.writeFileSync(STORE_PATH, JSON.stringify(SEED, null, 2), 'utf-8'))
+beforeEach(() => resetStore())
 
 describe('GET /api/health', () => {
   it('returns 200 with status ok', async () => {

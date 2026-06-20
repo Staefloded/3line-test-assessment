@@ -6,7 +6,7 @@
   "type": "commonjs",
   "scripts": {
     "start": "node dist/index.js",
-    "build": "tsc",
+    "build": "jest && tsc",
     "dev": "ts-node src/index.ts",
     "test": "jest"
   },
