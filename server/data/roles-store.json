@@ -1,0 +1,19 @@
+{
+  "activeRoles": [
+    {
+      "id": 1,
+      "name": "Superadmin",
+      "lastActive": "06/2023"
+    },
+    {
+      "id": 2,
+      "name": "Developeradmin",
+      "lastActive": "01/2023"
+    },
+    {
+      "id": 3,
+      "name": "Supportadmin",
+      "lastActive": "10/2022"
+    }
+  ]
+}
