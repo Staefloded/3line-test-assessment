@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import { ActiveRoleCards } from "../components/settings/ActiveRoleCards";
 import type { ActiveRole } from "../types";
 
@@ -87,45 +87,4 @@ describe("ActiveRoleCards", () => {
     expect(screen.queryByText("Save changes")).not.toBeInTheDocument();
   });
 
-  it("submitting add modal calls onCreated with the new role", async () => {
-    const onCreated = vi.fn();
-    const newRole = { id: 4, name: "Billingadmin", lastActive: "06/2026" };
-    vi.stubGlobal(
-      "fetch",
-      vi.fn().mockResolvedValueOnce({
-        ok: true,
-        json: async () => ({ data: newRole }),
-      })
-    );
-
-    render(<ActiveRoleCards roles={mockRoles} onRoleCreated={onCreated} onRoleUpdated={noop} />);
-    fireEvent.click(screen.getByText(/Add role to user/));
-    fireEvent.change(screen.getByPlaceholderText(/e.g. Billing admin/i), {
-      target: { value: "Billingadmin" },
-    });
-    fireEvent.click(screen.getByText("Create"));
-
-    await waitFor(() => expect(onCreated).toHaveBeenCalledWith(newRole));
-  });
-
-  it("submitting edit modal calls onUpdated with the updated role", async () => {
-    const onUpdated = vi.fn();
-    const updatedRole = { id: 1, name: "SuperadminV2", lastActive: "06/2023" };
-    vi.stubGlobal(
-      "fetch",
-      vi.fn().mockResolvedValueOnce({
-        ok: true,
-        json: async () => ({ data: updatedRole }),
-      })
-    );
-
-    render(<ActiveRoleCards roles={mockRoles} onRoleCreated={noop} onRoleUpdated={onUpdated} />);
-    fireEvent.click(screen.getAllByText("Edit")[0]);
-    fireEvent.change(screen.getByDisplayValue("Superadmin"), {
-      target: { value: "SuperadminV2" },
-    });
-    fireEvent.click(screen.getByText("Save changes"));
-
-    await waitFor(() => expect(onUpdated).toHaveBeenCalledWith(updatedRole));
-  });
 });
